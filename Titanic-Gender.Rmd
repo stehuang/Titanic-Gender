@@ -1,0 +1,130 @@
+---
+output:
+  html_document: default
+---
+
+
+#####Stella Huang
+
+
+#####January 2018
+
+
+#####Titanic: Machine Learning from Disaster Competition (via Kaggle)
+
+
+###**Analysis Between One's Survival Status and Gender** 
+
+
+
+```{r}
+# loading the dataset in the workspace
+# dataset is named "train"
+train <- read.csv("train.csv",stringsAsFactors = FALSE)
+head(train)
+```
+
+```{r}
+# creating a table to display the survival stats
+survive<-table(train$Survived)
+survive
+
+# survival stats organized by gender
+survive.sex <- table(train$Sex,train$Survived)
+colnames(survive.sex) <- c("No", "Yes")
+survive.sex
+
+# constructing a barplot to visualize the amount of survivers and nonsurvivers categorized by gender
+barplot(survive.sex,beside=TRUE,ylim=c(0,550),col=c("blue","orange"),density=c(20,40,20,40),main="Survivers by Gender (1)")
+legend("topright",c("Female", "Male"),density=c(20,40),fill=c("blue","orange"),cex=0.7)
+```
+
+###Analysis
+This barplot provides a visual comparison between the amount of people for each gender of the same survival status. We see that there are a sigfinicant amount of men who have died compared to women, and a greater amount of women who have survived, despite there being more men on board. The proportion between the amount of people for each survival status is different; there is a greater men to women ratio for those who've died than those who have survived. This leads to the second part of my analysis, where I will compute the ratio for men to women and compare the survival stats within each gender. 
+
+
+
+###Barplot (2) and (3)
+
+```{r}
+# constructing a barplot to visualize the stats above by PROPORTION
+sex <- table(train$Sex)
+sex
+prob.bysurvive.sex <- cbind(survive.sex[1,]/sex[1],survive.sex[2,]/sex[2])
+rownames(prob.bysurvive.sex) <- c("No","Yes")
+colnames(prob.bysurvive.sex) <- c("female","male")
+barplot(prob.bysurvive.sex,beside=TRUE,col=c("blue","orange"),density=c(20,40,20,40),main="Survival Status: Compared Within Gender (2)")
+legend("topright",c("No", "Yes"),density=c(20,40),fill=c("blue","orange"),cex=0.7)
+prob.bysurvive.sex
+
+# constructing a barplot to visualize the stats from part 1 organized by the survival status vs gender (AS PROPORTIONS)
+prob.bysex.survive <- cbind(survive.sex[,1]/survive[1],survive.sex[,2]/survive[2])
+colnames(prob.bysex.survive) <- c("No","Yes")
+rownames(prob.bysex.survive) <- c("female","male")
+barplot(prob.bysex.survive,beside=TRUE,col=c("blue","orange"),density=c(20,40,20,40),main="Survival Status: Compared by Diff. Gender (3)")
+legend("topright",c("Female", "Male"),density=c(20,40),fill=c("blue","orange"),cex=0.7)
+prob.bysex.survive
+```
+
+
+
+
+
+
+###Analysis:
+As shown in the barplots above, we see that
+
+- For females, more women survived; for males, more men did not survive. There is also a wider difference between the survival rates in each gender, where ~81.1% men died and only ~25.8% women died.
+- Among those who have died, 85.2% are male and 14.8% are female. Among those who survived, 68.1% are female and 31.9% are male. There is a large disparity between the amount of men and women who've died, which could be attributed to a greater amount of male passengers from the beginning. This also could serve as one explanation for a smaller female to male ratio for those who've survived.
+- Nevertheless, all three barplots demonstrate that women had a higher survival rate. While there are implied reasons for this outcome, it raises certain questions like
+    - What kind of men survived? Can it be explained by age, fare, class, or amount of family members on board?
+    - What kind of women died? Was it just by chance that they did, or were age/fare/class etc factors?
+    - *Why did women survive?* Could the amount of family members been a reason too?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
